@@ -23,4 +23,6 @@ In one commmand line, in stepwise process:-
 * img2pdf
 * docx
 * pillow
+* Pmw
+* pyglet
 
