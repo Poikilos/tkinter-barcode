@@ -17,10 +17,10 @@ In one commmand line, in stepwise process:-
 6.Then enjoy the gui
 
 # Modules
-* [pytube3]
-* [fpdf]
-* [pyBarcode]
-* [img2pdf]
-* [docx]
-* [pillow]
+* pytube3
+* fpdf
+* pyBarcode
+* img2pdf
+* docx
+* pillow
 
