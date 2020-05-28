@@ -6,7 +6,7 @@
 ### Summary
 Respective book (Ch-2)codes.
 
-Problems | Chapter-3
+Problems | Chapter-2
 --- | --- 
 1 | Add top-level window/ Add menubuttons 
 2 | Add menu-items within each menu button/ Add labels to hold shortcut toolbar and line number 
