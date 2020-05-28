@@ -4,9 +4,9 @@
 ====================================================================
 
 ### Summary
-Respective book (Ch-2)codes.
+Respective book (Ch-1)codes.
 
-Problems | Chapter-3
+Problems | Chapter-1
 --- | --- 
 1 | Your first GUI application - the top level window 
 2 | Adding some widgets 
