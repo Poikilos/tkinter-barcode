@@ -295,23 +295,25 @@ class ThreadingExample(object):
 
 
     def create_menubar(self):
-        new_file_icon = PhotoImage(file='icons//new_file.gif')
-        open_file_icon = PhotoImage(file='icons/open_file.gif')
-        save_file_icon = PhotoImage(file='icons/save.gif')
-        cut_icon = PhotoImage(file='icons/cut.gif')
-        copy_icon = PhotoImage(file='icons/copy.gif')
-        paste_icon = PhotoImage(file='icons/paste.gif')
-        undo_icon = PhotoImage(file='icons/undo.gif')
-        redo_icon = PhotoImage(file='icons/redo.gif')
+        #path="C:/Users/HP/Desktop/python_codes_lab_GUI/Book To Learn Code From\python_book_codes/Chapter_02/icons"
+        self.new_file_icon = PhotoImage(file='icons/new_file.gif')
+        self.open_file_icon = PhotoImage(file='icons/open_file.gif')
+        self.save_file_icon = PhotoImage(file='icons/save.gif')
+        self.cut_icon = PhotoImage(file='icons/cut.gif')
+        self.copy_icon = PhotoImage(file='icons/copy.gif')
+        self.paste_icon = PhotoImage(file='icons/paste.gif')
+        self.undo_icon = PhotoImage(file='icons/undo.gif')
+        self.redo_icon = PhotoImage(file='icons/redo.gif')
 
         self.menu_bar=Menu(self.win)
         self.file_menu = Menu(self.menu_bar, tearoff=0)
         self.file_menu.add_command(label='New', accelerator='Ctrl+N', compound='left',
-                      image=new_file_icon, underline=0, command=self.new_file)
+                      image=self.new_file_icon, underline=0, command=self.new_file)
+        
         self.file_menu.add_command(label='Open', accelerator='Ctrl+O', compound='left',
-                      image=open_file_icon, underline=0, command=self.open_file)
+                      image=self.open_file_icon, underline=0, command=self.open_file)
         self.file_menu.add_command(label='Save', accelerator='Ctrl+S',
-                      compound='left', image=save_file_icon, underline=0, command=self.save)
+                      compound='left', image=self.save_file_icon, underline=0, command=self.save)
         self.file_menu.add_command(label='Save as', accelerator='Shift+Ctrl+S', command=self.save_as)
         self.file_menu.add_separator()
         self.file_menu.add_command(label='Exit', accelerator='Alt+F4', command=self.exit_editor)
@@ -319,9 +321,9 @@ class ThreadingExample(object):
 
         self.edit_menu = Menu(self.menu_bar, tearoff=0)
         self.edit_menu.add_command(label='Undo', accelerator='Ctrl+Z',
-                              compound='left', image=undo_icon, command=self.undo)
+                              compound='left', image=self.undo_icon, command=self.undo)
         self.edit_menu.add_command(label='Redo', accelerator='Ctrl+Y',
-                              compound='left', image=redo_icon, command=self.redo)
+                              compound='left', image=self.redo_icon, command=self.redo)
         self.edit_menu.add_separator()
         self.edit_menu.add_command(label='Find', underline=0,
                               accelerator='Ctrl+F', command=self.find_text)
