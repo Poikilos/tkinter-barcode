@@ -4,7 +4,7 @@ Implemented workable barcode printers, Learnt chess games along with threading a
 ## How to work with it
 In one commmand line, in stepwise process:-
 
-1.Twinter is already installed with python3.6.8
+1.Tkinter is already installed with python3.6.8
 
 2.Need other modules installed via pip
 
@@ -17,6 +17,7 @@ In one commmand line, in stepwise process:-
 6.Then enjoy the gui
 
 # Modules
+* cx_Freeze
 * pytube3
 * fpdf
 * pyBarcode
