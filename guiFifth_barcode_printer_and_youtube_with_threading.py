@@ -16,6 +16,11 @@ sys.setrecursionlimit(5000)
 block_cipher = None
 
 import tkinter as tk
+
+from tkinter import *
+import tkinter.filedialog
+import tkinter.messagebox
+
 from tkinter import ttk,Entry,Text,Frame
 from tkinter.scrolledtext import ScrolledText
 from tkinter.ttk import Progressbar,Scrollbar
@@ -32,6 +37,8 @@ class ThreadingExample(object):
     until the application exits.
     """
 
+    #function downloads youtube video with audio or silence according to a variable named youtube_audio_var
+    #if empty url is inserted or wrong pattern matching url is inserted, throws error to textBox accordingly
     def download_youtube_video_with_audio(self):
         video_url=self.youtube_url_var.get()
         yav=self.youtube_audio_var.get()
@@ -64,7 +71,8 @@ class ThreadingExample(object):
                 
                 self.textBox.insert(1.0,"Invalid url for download inserted"+"\n")
         
-        
+    #function downloads youtube video between the available resolutions
+    #if empty url is inserted or wrong pattern matching url is inserted, throws error to textBox accordingly
     def download_youtube_video(self):
         video_url=self.youtube_url_var.get()
         youtube_res=self.youtube_var.get()
@@ -89,7 +97,10 @@ class ThreadingExample(object):
             else:
                 
                 self.textBox.insert(1.0,"Invalid url for download inserted"+"\n")
-        
+
+    #function makes a folder named singleFolder if doesn't exists and put corresponding documents of barcodes
+    #code_128 barcodes are taken as input from two label above and then given as input to another function
+    #sub functions are defined as putIntoDocumentFiles and a faster version of it 
     def action(self):
       
         def makeFolder(self):
@@ -150,7 +161,7 @@ class ThreadingExample(object):
         self.textBox.insert(1.0,str(self.run_thread)+"\n")
         self.textBox.insert(1.0,str(self.run_thread.isAlive())+"\n")
         
-        #
+        
     def create_thread(self):
         self.run_thread = Thread(target=self.action)
         self.run_thread.setDaemon(True) # <=== add this line
@@ -177,11 +188,94 @@ class ThreadingExample(object):
         
         self.textBox.insert(1.0,str(self.run_thread)+"\n")
         self.textBox.insert(1.0,str(self.run_thread.isAlive())+"\n")
+
+    #function sets title to Untitled and deletes everything from textBox    
+    def new_file(self,event=None):
+        self.win.title("Untitled")
+        global file_name
+        file_name = None
+        self.textBox.delete(1.0, END)
+        #on_content_changed()
+
+    #function opens file from devices, sets title to opened file name and insert text into textBox
+    def open_file(self,event=None):
+        input_file_name = tkinter.filedialog.askopenfilename(defaultextension=".txt",
+                                                             filetypes=[("All Files", "*.*"), ("Text Documents", "*.txt")])
+        if input_file_name:
+            global file_name
+            file_name = input_file_name
+            self.win.title('{} - {}'.format(os.path.basename(file_name), 'GUI'))
+            self.textBox.delete(1.0, END)
+            with open(file_name) as _file:
+                self.textBox.insert(1.0, _file.read())
+            #on_content_changed()
+
+    #function writes text from textBox into file_name
+    def write_to_file(self,file_name):
+        try:
+            content = self.textBox.get(1.0, 'end')
+            with open(file_name, 'w') as the_file:
+                the_file.write(content)
+        except IOError:
+            tkinter.messagebox.showwarning("Save", "Could not save the file.")
+
+  
+    #function takes file name as input and then runs subfunctions and also sets title to saved file path
+    def save_as(self,event=None):
+        input_file_name = tkinter.filedialog.asksaveasfilename(defaultextension=".txt",
+                                                               filetypes=[("All Files", "*.*"), ("Text Documents", "*.txt")])
+        if input_file_name:
+            #global self.file_name
+            self.file_name = input_file_name
+            self.write_to_file(self.file_name)
+            self.win.title('{} - {}'.format(os.path.basename(self.file_name), 'GUI'))
+        return "break"
+
+    #function saves file_name if not exists as save as function, else write_to_file function
+    def save(self,event=None):
+        #global self.file_name
         
         
-    
+        if not self.file_name:
+            self.save_as()
+        else:
+            self.write_to_file(self.file_name)
+        return "break"
+
+
+    def exit_editor(self,event=None):
+        if tkinter.messagebox.askokcancel("Quit?", "Really quit?"):
+            self.win.destroy()
+
+    #function creates menubar with submenus as file menubar and edit menubar correspondingly
+    def create_menubar(self):
+        new_file_icon = PhotoImage(file='icons//new_file.gif')
+        open_file_icon = PhotoImage(file='icons/open_file.gif')
+        save_file_icon = PhotoImage(file='icons/save.gif')
+        cut_icon = PhotoImage(file='icons/cut.gif')
+        copy_icon = PhotoImage(file='icons/copy.gif')
+        paste_icon = PhotoImage(file='icons/paste.gif')
+        undo_icon = PhotoImage(file='icons/undo.gif')
+        redo_icon = PhotoImage(file='icons/redo.gif')
+
+        self.menu_bar=Menu(self.win)
+        self.file_menu = Menu(self.menu_bar, tearoff=0)
+        self.file_menu.add_command(label='New', accelerator='Ctrl+N', compound='left',
+                      image=new_file_icon, underline=0, command=self.new_file)
+        self.file_menu.add_command(label='Open', accelerator='Ctrl+O', compound='left',
+                      image=open_file_icon, underline=0, command=self.open_file)
+        self.file_menu.add_command(label='Save', accelerator='Ctrl+S',
+                      compound='left', image=save_file_icon, underline=0, command=self.save)
+        self.file_menu.add_command(label='Save as', accelerator='Shift+Ctrl+S', command=self.save_as)
+        self.file_menu.add_separator()
+        self.file_menu.add_command(label='Exit', accelerator='Alt+F4', command=self.exit_editor)
+        self.menu_bar.add_cascade(label='File', menu=self.file_menu)
         
+        self.win.config(menu=self.menu_bar)        
+
+    #function create widgets like Label, Combobox, Entry and Button
     def create_widget(self):
+        #made a label at zero row and zero column to select input between A-Z at the corresponding combobox
         self.gender_label=ttk.Label(self.win,text='Select input 1 : ')
         self.gender_label.grid(row=0,column=0,sticky=tk.W)
 
@@ -193,6 +287,7 @@ class ThreadingExample(object):
         self.gender_combobox.current(0)
         self.gender_combobox.grid(row=0,column=1)
 
+        #made a label at first row and zero column to select input between A-Z at the corresponding combobox
         self.gender_label_2=ttk.Label(self.win,text='Select input 2 : ')
         self.gender_label_2.grid(row=1,column=0,sticky=tk.W)
 
@@ -204,6 +299,7 @@ class ThreadingExample(object):
         self.gender_combobox_2.current(0)
         self.gender_combobox_2.grid(row=1,column=1)
 
+        #made a label at second row and zero column to take corresponding entry as input between 1-inf
         self.page_label=ttk.Label(self.win,text='Until page number starting from 1: ')
         self.page_label.grid(row=2,column=0,sticky=tk.W)
 
@@ -214,10 +310,12 @@ class ThreadingExample(object):
         #self.thread = threading.Thread(name="action",target=self.action)
         #self.thread.daemon = False                         # Daemonize thread
         #thread.start()                                  # Start the execution
-                
+
+        #submit button is attached to function action here which is inside create_thread function
         self.submit_button=ttk.Button(self.win,text='print Barcodes',command=self.create_thread)
         self.submit_button.grid(row=4,column=0)
 
+        #made a label at fifth row and zero column that takes youtube url as input
         self.youtube_label=ttk.Label(self.win,text='Give youtube url : ')
         self.youtube_label.grid(row=5,column=0,sticky=tk.W)
 
@@ -230,7 +328,8 @@ class ThreadingExample(object):
         self.youtube_combobox['values']=("720p","480p","360p","240p","144p")
         self.youtube_combobox.current(0)
         self.youtube_combobox.grid(row=5,column=2)
-        
+
+        #made a label at fifth row and zero column that takes youtube url with or without audio as input
         self.youtube_label_2=ttk.Label(self.win,text='Prefer it with audio or silence : ')
         self.youtube_label_2.grid(row=5,column=3,sticky=tk.W)
 
@@ -240,7 +339,7 @@ class ThreadingExample(object):
         self.youtube_combobox_2.current(0)
         self.youtube_combobox_2.grid(row=5,column=4)
 
-        
+        #youtube button is attached to function download_youtube_video here which is inside create_thread_2 function
         self.youtube_button=ttk.Button(self.win,text='download youtube video from a url',command=self.create_thread_two)
         self.youtube_button.grid(row=6,column=0)
 
@@ -279,7 +378,10 @@ class ThreadingExample(object):
             #self.start_thread=start_thread
             #self.stopped=stopped
             self.create_widget()
-            self.win.mainloop()    
+            self.file_name=None
+            self.create_menubar()
+            self.win.mainloop()
+            
         
     
         

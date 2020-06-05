@@ -26,7 +26,9 @@ class ThreadingExample(object):
     The run() method will be started and it will run in the background
     until the application exits.
     """
-
+## function makes a folder named singleFolder if doesn't exists and put corresponding documents of barcodes
+## code_128 barcodes are taken as input from two label above and then given as input to another function
+## sub functions are defined as putIntoDocumentFiles and a faster version of it
     def action(self):
         while True:
             print("hello")
@@ -144,6 +146,7 @@ class ThreadingExample(object):
         #self.start_thread=start_thread
         #self.stopped=stopped
 
+        #made a label at zero row and zero column to select input between A-Z at the corresponding combobox
         self.gender_label=ttk.Label(self.win,text='Select input 1 : ')
         self.gender_label.grid(row=0,column=0,sticky=tk.W)
 
@@ -155,6 +158,7 @@ class ThreadingExample(object):
         self.gender_combobox.current(0)
         self.gender_combobox.grid(row=0,column=1)
 
+        #made a label at first row and zero column to select input between A-Z at the corresponding combobox
         self.gender_label_2=ttk.Label(self.win,text='Select input 2 : ')
         self.gender_label_2.grid(row=1,column=0,sticky=tk.W)
 
@@ -166,6 +170,7 @@ class ThreadingExample(object):
         self.gender_combobox_2.current(0)
         self.gender_combobox_2.grid(row=1,column=1)
 
+        #made a label at second row and zero column to take corresponding entry as input between 1-inf 
         self.page_label=ttk.Label(self.win,text='Until page number starting from 1: ')
         self.page_label.grid(row=2,column=0,sticky=tk.W)
 
@@ -176,7 +181,8 @@ class ThreadingExample(object):
         #self.thread = threading.Thread(name="action",target=self.action)
         #self.thread.daemon = False                         # Daemonize thread
         #thread.start()                                  # Start the execution
-        
+
+        #submit button is attached to function action here
         self.submit_button=ttk.Button(self.win,text='print Barcodes',command=self.start_thread)
         self.submit_button.grid(row=4,column=0)
         self.stop_button=ttk.Button(self.win,text='Stop',command=self.stopped)

@@ -21,7 +21,7 @@ from tkinter.ttk import Progressbar
 win=tk.Tk()
 win.title('GUI')
 
-
+#made a label at zero row and zero column to select input between A-Z at the corresponding combobox
 gender_label=ttk.Label(win,text='Select input 1 : ')
 gender_label.grid(row=0,column=0,sticky=tk.W)
 
@@ -33,6 +33,7 @@ gender_combobox['values']=('A','B','C','D','E','F','G','H','I',
 gender_combobox.current(0)
 gender_combobox.grid(row=0,column=1)
 
+#made a label at first row and zero column to select input between A-Z at the corresponding combobox
 gender_label_2=ttk.Label(win,text='Select input 2 : ')
 gender_label_2.grid(row=1,column=0,sticky=tk.W)
 
@@ -44,6 +45,7 @@ gender_combobox_2['values']=('A','B','C','D','E','F','G','H','I',
 gender_combobox_2.current(0)
 gender_combobox_2.grid(row=1,column=1)
 
+#made a label at second row and zero column to take corresponding entry as input between 1-inf 
 page_label=ttk.Label(win,text='Until page number starting from 1: ')
 page_label.grid(row=2,column=0,sticky=tk.W)
 
@@ -51,7 +53,14 @@ page_var=tk.StringVar()
 page_number=Entry(bd=5,textvariable=page_var)
 page_number.grid(row=2,column=1,sticky=tk.W)
 
+#function makes a folder named singleFolder if doesn't exists and put corresponding documents of barcodes
+#code_128 barcodes are taken as input from two label above and then given as input to another function
+#sub functions are defined as putIntoDocumentFiles and a faster version of it
 def action():
+    """
+    ProgressBar is also attached to see if it works but it doesn't works well as threading is not used
+    so the functions doesn't run in background or they run at main loop
+    """
     progress=Progressbar(win,orient="horizontal",length=300,mode='determinate')
     progress.grid(row=5)
     progress["maximum"]=100
@@ -73,6 +82,7 @@ def action():
     letter_words_2=gender_var_2.get()
     progress['value']=time.time()-start_time
     progress.update()
+    #function add table of columns*rows,i.e 4*1000 barcodes with 100 barcodes in single page to entire document
     def fasterSolution(folderAddress,pic,progress):
         progress['value']=time.time()-start_time
         progress.update()
@@ -92,7 +102,7 @@ def action():
         document.save(folderAddress+"\\"+"singleFolder"+"\\"+pic+"_"+str(1)+".docx")
         progress['value']=time.time()-start_time
         progress.update()
-        
+    #function add table of columns*rows,i.e 4*100 barcodes with 100 barcodes in single page to entire document    
     def putIntoDocumentFiles(folderAddress,pic):
         document = Document()
         table=document.add_table(rows=100,cols=4)#ROWS=25 For 100 barcodes 
@@ -128,6 +138,8 @@ def action():
     progress.update()
     #Stopping progress bar here
     progress.stop()
+
+#submit button is attached to function action here
 submit_button=ttk.Button(win,text='print Barcodes',command=action)
 submit_button.grid(row=4,column=0)
 win.mainloop()
