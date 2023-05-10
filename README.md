@@ -1,6 +1,8 @@
 # tkinter-mini-projects
 Implemented workable barcode printers, Learnt chess games along with threading and oops by following MVC (Model View Controller) based guis.
 
+![Main Page](https://github.com/prakHr/Portfolio-Site/blob/master/images/project0.png)
+
 ## How to work with it
 In one commmand line, in stepwise process:-
 
