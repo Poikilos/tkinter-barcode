@@ -1,0 +1,8 @@
+fpdf
+python-barcode
+img2pdf
+docx
+pillow
+Pmw
+pyglet
+pytube
